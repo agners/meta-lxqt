@@ -1,0 +1,42 @@
+From 1a027ebbc6047bc447b1788dfc3e8e966ff3c9db Mon Sep 17 00:00:00 2001
+From: Stefan Agner <stefan@agner.ch>
+Date: Sun, 26 Apr 2015 23:02:03 +0200
+Subject: [PATCH] libqtxdg: get root directory from CMAKE_CURRENT_LIST_DIR
+
+Allow cross compilation by using CMAKE_CURRENT_LIST_DIR to get the
+absolut path of the listfile, and derive the library and include
+paths from it.
+
+Signed-off-by: Stefan Agner <stefan@agner.ch>
+---
+ cmake/qt5xdg-config.cmake.in | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/cmake/qt5xdg-config.cmake.in b/cmake/qt5xdg-config.cmake.in
+index 1a338f5..95cc0c7 100644
+--- a/cmake/qt5xdg-config.cmake.in
++++ b/cmake/qt5xdg-config.cmake.in
+@@ -32,15 +32,17 @@
+ #    add_executable(use-qtxdg main.cpp)
+ #    target_link_libraries(use-qtxdg ${QTXDG_LIBRARIES})
+ 
+-set(QTXDG_INCLUDE_DIR   "@QTXDG_INCLUDE_DIR@")
++get_filename_component(_libqtxdg_rootdir ${CMAKE_CURRENT_LIST_DIR}/../../../../ ABSOLUTE)
++
++set(QTXDG_INCLUDE_DIR   "${_libqtxdg_rootdir}@QTXDG_INCLUDE_DIR@")
+ set(QTXDG_LIBRARY       @QTXDGX_LIBRARY_NAME@)
+-set(QTXDG_PRIVATE_INCLUDE_DIR "@QTXDG_PRIVATE_INCLUDE_DIR@" CACHE PATH "Qt5Xdg private include dir")
++set(QTXDG_PRIVATE_INCLUDE_DIR "${_libqtxdg_rootdir}@QTXDG_PRIVATE_INCLUDE_DIR@" CACHE PATH "Qt5Xdg private include dir")
+ 
+ set(QTXDG_LIBRARIES     ${QTXDG_LIBRARY})
+ set(QTXDG_INCLUDE_DIRS  "${QTXDG_INCLUDE_DIR}")
+ set(QTXDG_PRIVATE_INCLUDE_DIRS "${QTXDG_PRIVATE_INCLUDE_DIR}")
+ 
+-set(QTXDG_LIBRARY_DIRS  "@CMAKE_INSTALL_FULL_LIBDIR@")
++set(QTXDG_LIBRARY_DIRS  "${_libqtxdg_rootdir}@CMAKE_INSTALL_FULL_LIBDIR@")
+ 
+ set(QTXDG_USE_FILE      "${CMAKE_CURRENT_LIST_DIR}/@QTXDGX_FILE_NAME@_use.cmake")
+ set(QTXDG_FOUND 1)
+-- 
+2.3.6
+

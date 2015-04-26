@@ -1,0 +1,30 @@
+From ee4b62752471aa9ddaba0f8e443f9fb7cd8d8a46 Mon Sep 17 00:00:00 2001
+From: Stefan Agner <stefan@agner.ch>
+Date: Sun, 26 Apr 2015 19:07:12 +0200
+Subject: [PATCH] libqtxdg: remove dupplicated usr definition
+
+Avoid installing private headers in /usr/usr/include... by removing
+CMAKE_INSTALL_PREFIX. The definition CMAKE_INSTALL_INCLUDEDIR already
+includes the main install prefix.
+
+Signed-off-by: Stefan Agner <stefan@agner.ch>
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 95266aa..e45c3e4 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -242,7 +242,7 @@ configure_file(
+ )
+ 
+ # Instalable ...............................
+-set(QTXDG_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/${QTXDGX_FILE_NAME}")
++set(QTXDG_INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/${QTXDGX_FILE_NAME}")
+ 
+ if (USE_QT5)
+     set(QTXDG_PRIVATE_INCLUDE_DIR "${QTXDG_INCLUDE_DIR}/${QTXDG_VERSION_STRING}")
+-- 
+2.3.6
+

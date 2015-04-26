@@ -1,0 +1,29 @@
+From a6584c4f64dc55b97587306b4b3f2c74f50ecba9 Mon Sep 17 00:00:00 2001
+From: Stefan Agner <stefan@agner.ch>
+Date: Sun, 26 Apr 2015 23:12:43 +0200
+Subject: [PATCH 1/2] liblxqt: remove dupplicated usr definition
+
+In OE, CMAKE_INSTALL_DATAROOTDIR is already prefix with the install
+prefix, hence remove it to avoid paths such as /usr//usr/share...
+
+Signed-off-by: Stefan Agner <stefan@agner.ch>
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1583de0..1984056 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -165,7 +165,7 @@ include(GNUInstallDirs)
+ set(LXQT_VERSION ${LXQT_MAJOR_VERSION}.${LXQT_MINOR_VERSION}.${LXQT_PATCH_VERSION})
+ set(LXQT_LIBRARY_NAME "lxqt" CACHE STRING "lxqt")
+ set(LXQT_RELATIVE_SHARE_DIR "${LXQT_LIBRARY_NAME}")
+-set(LXQT_SHARE_DIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_DATAROOTDIR}/${LXQT_RELATIVE_SHARE_DIR}")
++set(LXQT_SHARE_DIR "${CMAKE_INSTALL_DATAROOTDIR}/${LXQT_RELATIVE_SHARE_DIR}")
+ set(LXQT_RELATIVE_TRANSLATIONS_DIR "${LXQT_LIBRARY_NAME}/translations")
+ set(LXQT_TRANSLATIONS_DIR "${LXQT_SHARE_DIR}/translations")
+ 
+-- 
+2.3.6
+

@@ -1,0 +1,84 @@
+From 826da380931eb20e7cc46fb09fd09411208b73f7 Mon Sep 17 00:00:00 2001
+From: Stefan Agner <stefan@agner.ch>
+Date: Sun, 26 Apr 2015 23:20:37 +0200
+Subject: [PATCH 2/2] liblxqt: get root directory from CMAKE_CURRENT_LIST_DIR
+
+Allow cross compilation by using CMAKE_CURRENT_LIST_DIR to get the
+absolut path of the listfile, and derive the library and include
+paths from it.
+
+Signed-off-by: Stefan Agner <stefan@agner.ch>
+---
+ cmake/lxqt-config.cmake.in  |  6 ++++--
+ cmake/lxqtX-config.cmake.in | 12 +++++++-----
+ 2 files changed, 11 insertions(+), 7 deletions(-)
+
+diff --git a/cmake/lxqt-config.cmake.in b/cmake/lxqt-config.cmake.in
+index 0c4a8e5..629a8e0 100644
+--- a/cmake/lxqt-config.cmake.in
++++ b/cmake/lxqt-config.cmake.in
+@@ -53,13 +53,15 @@
+ #   add_executable(myexe main.cpp)
+ #   target_link_libraries(myexe $LXQT_LIBRARIES})
+ 
++get_filename_component(_liblxqt_rootdir ${CMAKE_CURRENT_LIST_DIR}/../../../../ ABSOLUTE)
++
+ if(LXQT_FIND_REQUIRED)
+   set(REQUIRED_OPT "REQUIRED")
+ endif()
+ 
+ set(LXQT_LIBRARY_DIRS  @CMAKE_INSTALL_PREFIX@/@LIB_INSTALL_DIR@)
+-set(LXQT_LIBRARIES     ${LXQT_LIBRARY} )
+-set(LXQT_INCLUDE_DIRS  ${LXQT_INCLUDE_DIR} @CMAKE_INSTALL_PREFIX@/include)
++set(LXQT_LIBRARIES     ${_liblxqt_rootdir}${LXQT_LIBRARY} )
++set(LXQT_INCLUDE_DIRS  ${_liblxqt_rootdir}${LXQT_INCLUDE_DIR} @CMAKE_INSTALL_PREFIX@/include)
+ set(LXQT_USE_FILE      ${CMAKE_CURRENT_LIST_DIR}/lxqt_use.cmake)
+ set(LXQT_CMAKE_MODULES_DIR @CFG_LXQT_CMAKE_MODULES_DIR@)
+ set(LXQT_FOUND         1)
+diff --git a/cmake/lxqtX-config.cmake.in b/cmake/lxqtX-config.cmake.in
+index 48354e4..c45d9e5 100644
+--- a/cmake/lxqtX-config.cmake.in
++++ b/cmake/lxqtX-config.cmake.in
+@@ -51,6 +51,8 @@
+ #   add_executable(myexe main.cpp)
+ #   target_link_libraries(myexe $LXQT_LIBRARIES})
+ 
++get_filename_component(_liblxqtX_rootdir ${CMAKE_CURRENT_LIST_DIR}/../../../../ ABSOLUTE)
++
+ set(LXQT_USEQT@LXQT_QT_VERSION@             ON)
+ set(LXQT_QT_VERSION         @LXQT_QT_VERSION@)
+ set(LXQT_MAJOR_VERSION      @LXQT_MAJOR_VERSION@)
+@@ -59,22 +61,22 @@ set(LXQT_PATCH_VERSION      @LXQT_PATCH_VERSION@)
+ set(LXQT_VERSION            @LXQT_VERSION@)
+ 
+ set(LXQT_RELATIVE_SHARE_DIR @LXQT_RELATIVE_SHARE_DIR@)
+-set(LXQT_SHARE_DIR          @LXQT_SHARE_DIR@)
++set(LXQT_SHARE_DIR          ${_liblxqtX_rootdir}@LXQT_SHARE_DIR@)
+ set(LXQT_RELATIVE_TRANSLATIONS_DIR   @LXQT_RELATIVE_TRANSLATIONS_DIR@)
+ set(LXQT_TRANSLATIONS_DIR   @LXQT_TRANSLATIONS_DIR@)
+ set(LXQT_ETC_XDG_DIR        @LXQT_ETC_XDG_DIR@)
+-set(LXQT_CMAKE_MODULES_DIR  @CFG_LXQT_CMAKE_MODULES_DIR@)
++set(LXQT_CMAKE_MODULES_DIR  ${_liblxqtX_rootdir}@CFG_LXQT_CMAKE_MODULES_DIR@)
+ 
+-set(LXQT_INCLUDE_DIR        @CFG_LXQT_INCLUDE_DIR@)
+-set(LXQT_INCLUDE_DIRS       @CFG_LXQT_INCLUDE_DIR@)
++set(LXQT_INCLUDE_DIR        ${_liblxqtX_rootdir}@CFG_LXQT_INCLUDE_DIR@)
++set(LXQT_INCLUDE_DIRS       ${_liblxqtX_rootdir}@CFG_LXQT_INCLUDE_DIR@)
+ 
+ set(LXQT_LIBRARY            @CFG_LXQT_LIBRARY@)
+ set(LXQT_LIBRARIES          @CFG_LXQT_LIBRARY@)
+ 
+-set(LXQT_USE_FILE           @CFG_LXQT_USE_FILE@)
++set(LXQT_USE_FILE           ${_liblxqtX_rootdir}@CFG_LXQT_USE_FILE@)
+ set(LXQT_FOUND              1)
+ set(LXQT@LXQT_QT_VERSION@_FOUND             1)
+ 
+ 
+-include(@CFG_LXQT_TARGETS_FILE@)
++include(${_liblxqtX_rootdir}@CFG_LXQT_TARGETS_FILE@)
+ 
+ mark_as_advanced(LXQT_LIBRARY LXQT_INCLUDE_DIR)
+ 
+-- 
+2.3.6
+
