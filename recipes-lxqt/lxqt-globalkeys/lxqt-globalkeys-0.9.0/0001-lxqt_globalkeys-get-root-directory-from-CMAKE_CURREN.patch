@@ -1,0 +1,61 @@
+From cec664bd2f31174e29f2601b486053d973abdb1d Mon Sep 17 00:00:00 2001
+From: Stefan Agner <stefan@agner.ch>
+Date: Mon, 27 Apr 2015 01:06:07 +0200
+Subject: [PATCH] lxqt_globalkeys: get root directory from
+ CMAKE_CURRENT_LIST_DIR
+
+Allow cross compilation by using CMAKE_CURRENT_LIST_DIR to get the
+absolut path of the listfile, and derive the library and include
+paths from it.
+
+Signed-off-by: Stefan Agner <stefan@agner.ch>
+---
+ cmake/lxqt_globalkeys-config.cmake.in    | 6 ++++--
+ cmake/lxqt_globalkeys_ui-config.cmake.in | 6 ++++--
+ 2 files changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/cmake/lxqt_globalkeys-config.cmake.in b/cmake/lxqt_globalkeys-config.cmake.in
+index 959c442..94e8c1b 100644
+--- a/cmake/lxqt_globalkeys-config.cmake.in
++++ b/cmake/lxqt_globalkeys-config.cmake.in
+@@ -25,12 +25,14 @@
+ #    add_executable(use-lxqt-globalkeys main.cpp)
+ #    target_link_libraries(use-qtxdg ${LXQT_GLOBALKEYS_QT_LIBRARIES} ${LXQT_GLOBALKEYS_LIBRARIES})
+ 
+-set(LXQT_GLOBALKEYS_INCLUDE_DIR   @LXQT_GLOBALKEYS_INCLUDE_DIR@)
++get_filename_component(_lxqt_globalkeys_rootdir ${CMAKE_CURRENT_LIST_DIR}/../../../../ ABSOLUTE)
++
++set(LXQT_GLOBALKEYS_INCLUDE_DIR   ${_lxqt_globalkeys_rootdir}@LXQT_GLOBALKEYS_INCLUDE_DIR@)
+ set(LXQT_GLOBALKEYS_LIBRARY       @LXQT_GLOBALKEYS_LIBRARY_NAME@)
+ 
+ set(LXQT_GLOBALKEYS_LIBRARIES     "${LXQT_GLOBALKEYS_LIBRARY}")
+ set(LXQT_GLOBALKEYS_INCLUDE_DIRS  "${LXQT_GLOBALKEYS_INCLUDE_DIR}")
+-set(LXQT_GLOBALKEYS_LIBRARY_DIRS  @CMAKE_INSTALL_PREFIX@/@LIB_INSTALL_DIR@)
++set(LXQT_GLOBALKEYS_LIBRARY_DIRS  ${_lxqt_globalkeys_rootdir}@CMAKE_INSTALL_PREFIX@/@LIB_INSTALL_DIR@)
+ 
+ set(LXQT_GLOBALKEYS_USE_FILE      "${CMAKE_CURRENT_LIST_DIR}/lxqt_globalkeys_use.cmake")
+ set(LXQT_GLOBALKEYS_FOUND 1)
+diff --git a/cmake/lxqt_globalkeys_ui-config.cmake.in b/cmake/lxqt_globalkeys_ui-config.cmake.in
+index e88f572..30e0951 100644
+--- a/cmake/lxqt_globalkeys_ui-config.cmake.in
++++ b/cmake/lxqt_globalkeys_ui-config.cmake.in
+@@ -25,12 +25,14 @@
+ #    add_executable(use-lxqt-globalkeys-ui main.cpp)
+ #    target_link_libraries(use-qtxdg ${LXQT_GLOBALKEYS_UI_QT_LIBRARIES} ${LXQT_GLOBALKEYS_UI_LIBRARIES})
+ 
+-set(LXQT_GLOBALKEYS_UI_INCLUDE_DIR   @LXQT_GLOBALKEYS_UI_INCLUDE_DIR@)
++get_filename_component(_lxqt_globalkeys_ui_rootdir ${CMAKE_CURRENT_LIST_DIR}/../../../../ ABSOLUTE)
++
++set(LXQT_GLOBALKEYS_UI_INCLUDE_DIR   ${_lxqt_globalkeys_ui_rootdir}@LXQT_GLOBALKEYS_UI_INCLUDE_DIR@)
+ set(LXQT_GLOBALKEYS_UI_LIBRARY       @LXQT_GLOBALKEYS_UI_LIBRARY_NAME@)
+ 
+ set(LXQT_GLOBALKEYS_UI_LIBRARIES     "${LXQT_GLOBALKEYS_UI_LIBRARY}")
+ set(LXQT_GLOBALKEYS_UI_INCLUDE_DIRS  "${LXQT_GLOBALKEYS_UI_INCLUDE_DIR}")
+-set(LXQT_GLOBALKEYS_UI_LIBRARY_DIRS  @CMAKE_INSTALL_PREFIX@/@LIB_INSTALL_DIR@)
++set(LXQT_GLOBALKEYS_UI_LIBRARY_DIRS  ${_lxqt_globalkeys_ui_rootdir}@CMAKE_INSTALL_PREFIX@/@LIB_INSTALL_DIR@)
+ 
+ set(LXQT_GLOBALKEYS_UI_USE_FILE      "${CMAKE_CURRENT_LIST_DIR}/lxqt_globalkeys_ui_use.cmake")
+ set(LXQT_GLOBALKEYS_UI_FOUND 1)
+-- 
+2.3.6
+

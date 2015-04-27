@@ -1,0 +1,41 @@
+From 4d96bfb9908fec932e010a6b14cb2f4466fb58a5 Mon Sep 17 00:00:00 2001
+From: Stefan Agner <stefan.agner@toradex.com>
+Date: Mon, 27 Apr 2015 00:55:25 +0200
+Subject: [PATCH] lxqt-mount: get root directory from CMAKE_CURRENT_LIST_DIR
+
+Allow cross compilation by using CMAKE_CURRENT_LIST_DIR to get the
+absolut path of the listfile, and derive the library and include
+paths from it.
+
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+---
+ cmake/lxqtmount-config.cmake.in | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/cmake/lxqtmount-config.cmake.in b/cmake/lxqtmount-config.cmake.in
+index e3c88b1..762dd40 100644
+--- a/cmake/lxqtmount-config.cmake.in
++++ b/cmake/lxqtmount-config.cmake.in
+@@ -17,15 +17,17 @@
+ #                        the compilation environment for include directories and populates a
+ #                        LXQTMOUNT_LIBRARIES variable.
+ 
++get_filename_component(_liblxqt-mount_rootdir ${CMAKE_CURRENT_LIST_DIR}/../../../../ ABSOLUTE)
++
+ set(LXQTMOUNT_MAJOR_VERSION @MAJOR_VERSION@)
+ set(LXQTMOUNT_MINOR_VERSION @MINOR_VERSION@)
+ set(LXQTMOUNT_PATCH_VERSION @PATCH_VERSION@)
+ set(LXQTMOUNT_VERSION       @LXQTMOUNT_VERSION@)
+ 
+-set(LXQTMOUNT_INCLUDE_DIR   @CMAKE_INSTALL_PREFIX@/@LXQTMOUNT_INCLUDE_DIR@)
++set(LXQTMOUNT_INCLUDE_DIR   ${_liblxqt-mount_rootdir}@CMAKE_INSTALL_PREFIX@/@LXQTMOUNT_INCLUDE_DIR@)
+ set(LXQTMOUNT_LIBRARY       @LXQTMOUNT_LIBRARY_NAME@)
+ 
+-set(LXQTMOUNT_LIBRARY_DIRS   @LIB_INSTALL_DIR@)
++set(LXQTMOUNT_LIBRARY_DIRS   ${_liblxqt-mount_rootdir}@LIB_INSTALL_DIR@)
+ 
+ set(LXQTMOUNT_LIBRARIES     "${LXQTMOUNT_LIBRARY}")
+ set(LXQTMOUNT_INCLUDE_DIRS  "${LXQTMOUNT_INCLUDE_DIR}")
+-- 
+2.3.6
+
