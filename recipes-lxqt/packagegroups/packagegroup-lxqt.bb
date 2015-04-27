@@ -10,4 +10,5 @@ RDEPENDS_${PN} = " \
     lxqt-runner \
     qtbase \
     qtbase-plugins \
+    xdg-utils \
 "

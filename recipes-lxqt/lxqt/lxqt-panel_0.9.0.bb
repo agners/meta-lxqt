@@ -1,15 +1,11 @@
 DESCRIPTION = "LXQt panel"
-SECTION = "x11"
-LICENSE = "LGPL-2.1"
-LIC_FILES_CHKSUM = "file://COPYING;md5=0964c689fcf4c21c6797ea87408416b6"
+
+include lxqt.inc
+
 PR = "r0"
 
-DEPENDS = "qtbase qtx11extras qttools liblxqt lxqt-common lxqt-globalkeys \
-           liblxqt-mount"
-
-inherit cmake_qt5
-
-SRC_URI = "http://downloads.lxqt.org/lxqt/${PV}/${PN}-${PV}.tar.xz"
+DEPENDS += "lxqt-common lxqt-globalkeys liblxqt-mount"
+RDEPENDS_${PN} += "kwindowsystem kguiaddons libxcomposite"
 
 SRC_URI[md5sum] = "cdae5a811c68fe8162230f1e9ef765f2"
 SRC_URI[sha256sum] = "96b2c2f1b7de7605ac79f094936e6fcf8f0034342e11d84624a033f2450f6bf1"
