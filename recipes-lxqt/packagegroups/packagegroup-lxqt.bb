@@ -10,6 +10,7 @@ RDEPENDS_${PN} = " \
     lxqt-qtplugin \
     lxqt-runner \
     lxqt-session \
+    pcmanfm-qt \
     qtbase \
     qtbase-plugins \
     xdg-utils \
