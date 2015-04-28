@@ -5,7 +5,7 @@ include lxqt.inc
 PR = "r0"
 
 DEPENDS += "lxqt-common lxqt-globalkeys liblxqt-mount"
-RDEPENDS_${PN} += "kwindowsystem kguiaddons libxcomposite"
+RDEPENDS_${PN} += "kwindowsystem kguiaddons libxcomposite lxmenu-data menu-cache"
 
 SRC_URI[md5sum] = "cdae5a811c68fe8162230f1e9ef765f2"
 SRC_URI[sha256sum] = "96b2c2f1b7de7605ac79f094936e6fcf8f0034342e11d84624a033f2450f6bf1"

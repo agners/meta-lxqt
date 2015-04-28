@@ -4,10 +4,12 @@ LICENSE = "MIT"
 inherit packagegroup
 
 RDEPENDS_${PN} = " \
-    lxqt-panel \
-    lxqt-session \
     lxqt-about \
+    lxqt-config \
+    lxqt-panel \
+    lxqt-qtplugin \
     lxqt-runner \
+    lxqt-session \
     qtbase \
     qtbase-plugins \
     xdg-utils \

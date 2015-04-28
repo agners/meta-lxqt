@@ -1,6 +1,8 @@
-DESCRIPTION = "LXQt platform integration for Qt"
+DESCRIPTION = "LXQt system integration plugin for Qt"
 
 include lxqt.inc
+
+SRC_URI += "file://0001-qt-plugins-get-Qt-plugin-path-from-OE-environment-va.patch"
 
 PR = "r0"
 
@@ -9,4 +11,10 @@ SRC_URI[sha256sum] = "7bc715d55ccf7b4356dc89b23f441b79b2a79a523efdb67bc4a81acaa8
 
 EXTRA_OECMAKE += " \
     -DOE_KF5_PATH_HOST_ROOT=${STAGING_DIR_HOST} \
+"
+
+FILES_${PN} = "${OE_QMAKE_PATH_PLUGINS}/platformthemes/libqtlxqt.so"
+FILES_${PN}-dbg = " \
+    ${OE_QMAKE_PATH_PLUGINS}/platformthemes/.debug/libqtlxqt.so \
+    ${prefix}/src \
 "

@@ -1,0 +1,30 @@
+From 6eddef3b033736f7e5038b1c89fbc6142a64f845 Mon Sep 17 00:00:00 2001
+From: Stefan Agner <stefan@agner.ch>
+Date: Tue, 28 Apr 2015 22:19:29 +0200
+Subject: [PATCH] qt-plugins: get Qt plugin path from OE environment variable
+
+---
+ src/CMakeLists.txt | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
+
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index d65d813..9591404 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -24,11 +24,8 @@ if(NOT QT_QMAKE_EXECUTABLE)
+     message(FATAL_ERROR "qmake is not found.")
+ endif()
+ 
+-# execute the command "qmake -query QT_INSTALL_PLUGINS" to get the path of plugins dir.
+-execute_process(COMMAND ${QT_QMAKE_EXECUTABLE} -query QT_INSTALL_PLUGINS
+-    OUTPUT_VARIABLE QT_PLUGINS_DIR
+-    OUTPUT_STRIP_TRAILING_WHITESPACE
+-)
++set(QT_PLUGINS_DIR ${OE_QMAKE_PATH_PLUGINS})
++
+ if(QT_PLUGINS_DIR)
+     message(STATUS "Qt5 plugin directory:" "${QT_PLUGINS_DIR}")
+ else()
+-- 
+2.3.6
+

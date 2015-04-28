@@ -19,6 +19,8 @@ This layer depends on:
   URI: https://github.com/e8johan/meta-kf5.git
   branch: master
 
+  URI: git://git.toradex.com/meta-lxde.git
+  branch: dizzy-next
 
 Patches
 =======
